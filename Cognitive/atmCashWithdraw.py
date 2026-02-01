@@ -1,0 +1,49 @@
+# Cognitive system for ATM PIN, balance, and daily withdrawal limit
+# Remaining balance and remaining limit shown at every step
+
+stored_pin = "1234"
+account_balance = 5000
+daily_limit = 3000
+withdrawn_today = 0
+
+
+entered_pin = input("Enter your PIN: ")
+
+if entered_pin == stored_pin:
+    print("\nPIN correct.")
+    print("Remaining Account Balance:", account_balance)
+    print("Remaining Daily Withdrawal Limit:", daily_limit - withdrawn_today)
+
+    while True:
+        withdraw_amount = int(input("\nEnter withdrawal amount: "))
+
+        remaining_balance = account_balance
+        remaining_limit = daily_limit - withdrawn_today
+
+        if withdraw_amount > remaining_limit:
+            print("Daily withdrawal limit exceeded.")
+            print("Remaining Account Balance:", remaining_balance)
+            print("Remaining Daily Withdrawal Limit:", remaining_limit)
+
+        elif withdraw_amount > remaining_balance:
+            print("Insufficient balance.")
+            print("Remaining Account Balance:", remaining_balance)
+            print("Remaining Daily Withdrawal Limit:", remaining_limit)
+            break
+
+        else:
+            account_balance -= withdraw_amount
+            withdrawn_today += withdraw_amount
+
+            remaining_balance = account_balance
+            remaining_limit = daily_limit - withdrawn_today
+
+            print("\nPlease collect your cash.")
+            print("Remaining Account Balance:", remaining_balance)
+            print("Remaining Daily Withdrawal Limit:", remaining_limit)
+            break
+
+else:
+    print("\nPIN is wrong.")
+    print("Remaining Account Balance:", account_balance)
+    print("Remaining Daily Withdrawal Limit:", daily_limit)
