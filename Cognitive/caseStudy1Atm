@@ -1,0 +1,106 @@
+"""
+Simple ATM System - Easy to Understand
+Shows how an ATM thinks step by step
+"""
+
+# STEP 1: Create a simple bank database (like a memory)
+accounts = {
+    "1234": {
+        "name": "Rajesh Kumar",
+        "pin": "1234",
+        "balance": 45000,
+        "daily_limit": 25000,
+        "withdrawn_today": 5000
+    },
+    "5678": {
+        "name": "Priya Sharma",
+        "pin": "5678",
+        "balance": 15000,
+        "daily_limit": 25000,
+        "withdrawn_today": 20000
+    }
+}
+
+print("=" * 50)
+print("       WELCOME TO SIMPLE ATM")
+print("=" * 50)
+
+# STEP 2: Card insertion (perception)
+print("\n[STEP 1] CARD READING")
+card_number = input("Insert card (enter account number): ")
+
+if card_number not in accounts:
+    print("❌ Invalid card!")
+    exit()
+
+account = accounts[card_number]
+print(f"✅ Card accepted! Welcome {account['name']}")
+
+# STEP 3: PIN verification (authentication)
+print("\n[STEP 2] PIN VERIFICATION")
+entered_pin = input("Enter PIN: ")
+
+if entered_pin != account["pin"]:
+    print("❌ Wrong PIN! Card blocked.")
+    exit()
+
+print("✅ PIN correct! Access granted.")
+
+# STEP 4: Show balance
+print("\n[STEP 3] ACCOUNT INFORMATION")
+print(f"Current Balance: ₹{account['balance']}")
+print(f"Withdrawn Today: ₹{account['withdrawn_today']}")
+print(f"Daily Limit: ₹{account['daily_limit']}")
+
+# STEP 5: Get withdrawal amount
+print("\n[STEP 4] WITHDRAWAL REQUEST")
+amount = int(input("Enter amount to withdraw: ₹"))
+
+# STEP 6: Decision making (checking conditions)
+print("\n[STEP 5] PROCESSING REQUEST...")
+
+# Check 1: Is balance enough?
+if amount > account["balance"]:
+    print(f"❌ Insufficient balance!")
+    print(f"   Your balance: ₹{account['balance']}")
+    print(f"   You requested: ₹{amount}")
+    exit()
+print("✅ Check 1 Passed: Sufficient balance")
+
+# Check 2: Is it within daily limit?
+total_today = account["withdrawn_today"] + amount
+if total_today > account["daily_limit"]:
+    print(f"❌ Daily limit exceeded!")
+    print(f"   Daily limit: ₹{account['daily_limit']}")
+    print(f"   Already withdrawn: ₹{account['withdrawn_today']}")
+    print(f"   You can withdraw: ₹{account['daily_limit'] - account['withdrawn_today']}")
+    exit()
+print("✅ Check 2 Passed: Within daily limit")
+
+# Check 3: Is amount valid?
+if amount % 100 != 0:
+    print(f"❌ Amount must be multiple of ₹100")
+    exit()
+print("✅ Check 3 Passed: Valid amount")
+
+# STEP 7: Approve and execute
+print("\n[STEP 6] TRANSACTION APPROVED ✅")
+print("Dispensing cash...")
+
+# Update account
+account["balance"] -= amount
+account["withdrawn_today"] += amount
+
+# STEP 8: Print receipt
+print("\n" + "=" * 50)
+print("           TRANSACTION RECEIPT")
+print("=" * 50)
+print(f"Name: {account['name']}")
+print(f"Withdrawn: ₹{amount}")
+print(f"Remaining Balance: ₹{account['balance']}")
+print(f"Withdrawn Today: ₹{account['withdrawn_today']}")
+print("=" * 50)
+print("      Thank you! Please take your cash")
+print("=" * 50)
+
+print("\n✅ Transaction Complete!")
